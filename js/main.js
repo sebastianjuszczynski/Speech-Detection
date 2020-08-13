@@ -8,12 +8,16 @@ const words = document.querySelector(".words");
 words.appendChild(p);
 
 recognition.addEventListener("result", e => {
-    const transcript = [...e.results]
-    .map(result => result[0])
-    .map(result => result.transcript)
-    .join("")
+    const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join("")
 
-    console.log(transcript);
+    p.textContent = transcript;
+    if (e.results[0].isFinal) {
+        p = document.createElement("p");
+        words.appendChild(p);
+    }
 });
-
+recognition.addEventListener("end", recognition.start);
 recognition.start();
